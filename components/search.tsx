@@ -64,7 +64,7 @@ export function Search(props: SearchProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 items-end"
+        className="grid grid-cols-2 md:grid-cols-1 gap-4 items-end "
       >
         <FormField
           control={form.control}

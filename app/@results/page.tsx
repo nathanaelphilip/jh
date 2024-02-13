@@ -13,5 +13,11 @@ export default async function Home(props: {
   searchParams: { q: string; order: YoutubeSearchParams['order'] };
 }) {
   const data = await getVideos(props.searchParams.q, props.searchParams.order);
-  return data ? <Results {...data} /> : null;
+  return data ? (
+    <Results {...data} />
+  ) : (
+    <div>
+      <h2 className="text-lg">No results</h2>
+    </div>
+  );
 }
