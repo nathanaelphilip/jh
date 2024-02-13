@@ -11,7 +11,8 @@ type VideoId = YoutubeVideoSearchItem['id']['videoId'];
 async function getComments(id: VideoId) {
   try {
     const comments = await youtube.videos.comments(
-      `https://www.youtube.com/watch?v=${id}`
+      `https://www.youtube.com/watch?v=${id}`,
+      { maxResults: 250 }
     );
     return comments.items.length;
   } catch {
@@ -27,5 +28,5 @@ export async function CommentsCount(props: CommentsCountProps) {
   const { id } = props;
   const count = await getComments(id);
 
-  return <Badge>{count} Comments</Badge>;
+  return <Badge variant="outline">{count} Comments</Badge>;
 }
