@@ -1,12 +1,22 @@
+import type { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts';
+
 import { Results } from '@/components/results';
-import type { YoutubeSearchParams } from 'youtube.ts';
-import { youtube } from '@/lib/youtube';
 
 async function getVideos(
   q: string,
   order: YoutubeSearchParams['order'] = 'relevance'
 ) {
-  return await youtube.videos.search({ q, order, maxResults: 25 });
+  const maxResults = 25;
+
+  const response = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?q=${q}&order=${order}&maxResults=${maxResults}&part=snippet&safeSearch=strict&type=video&key=${process.env.GOOGLE_API_KEY}`
+  );
+
+  const data: YoutubeVideoSearch = await response.json();
+
+  console.log(data.items[0], 'wut');
+
+  return data;
 }
 
 export default async function Home(props: {

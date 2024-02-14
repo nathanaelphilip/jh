@@ -4,17 +4,20 @@ import type {
 } from 'youtube.ts';
 
 import { Badge } from './ui/badge';
-import { youtube } from '@/lib/youtube';
 
 type VideoId = YoutubeVideoSearchItem['id']['videoId'];
 
 async function getComments(id: VideoId) {
   try {
-    const comments = await youtube.videos.comments(
-      `https://www.youtube.com/watch?v=${id}`,
-      { maxResults: 250 }
+    const maxResults = 100;
+
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/commentThreads?videoId=${id}&part=id&maxResults=${maxResults}&key=${process.env.GOOGLE_API_KEY}`
     );
-    return comments.items.length;
+
+    const data: YoutubeCommentThreadSearch = await response.json();
+
+    return data.items.length;
   } catch {
     return 0;
   }
